@@ -20,13 +20,13 @@ All the code is present in this folder:
 
 - 4.1_CountMinorAlleleperINDV.sh: count number of minor alleles and homozygous minor alleles per individual.
 
-- 4.2_Rxy_IslandsCont.sh: Estimates R_{XY} and R^{2}_{XY} ratios continental versus islands populations.
+- 4.2_Rxy_IslandsCont.sh: Estimates $R_{XY}$ and $R^{2}_{XY}$ ratios continental versus islands populations.
 
-- 4.3_Rxy_IRefRecolo.sh:  Estimates R_{XY} and R^{2}_{XY} ratios continental refugium versus recolonized populations.
+- 4.3_Rxy_IRefRecolo.sh:  Estimates $R_{XY}$ and $R^{2}_{XY}$ ratios continental refugium versus recolonized populations.
 
-- 4.4_Rxy_IslandsCont_INTERGENIC.sh: Estimates R_{XY} and R^{2}_{XY} ratios continental versus islands populations on intergenic SNPs only.
+- 4.4_Rxy_IslandsCont_INTERGENIC.sh: Estimates $R_{XY}$ and $R^{2}_{XY}$ ratios continental versus islands populations on intergenic SNPs only.
 
-- 4.5_Rxy_IRefRecolo_INTERGENIC.sh: Estimates R_{XY} and R^{2}_{XY} ratios continental refugium versus recolonized populations on intergenic SNPs only.
+- 4.5_Rxy_IRefRecolo_INTERGENIC.sh: Estimates $R_{XY}$ and $R^{2}_{XY}$ ratios continental refugium versus recolonized populations on intergenic SNPs only.
 
 - 5.1_EstimatingNe.sh: Estimate pi (per population) per 1Mb windows and then Ne per population with 1,000 bootstraps.
 
