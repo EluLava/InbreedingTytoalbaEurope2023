@@ -9,3 +9,7 @@ contains all the scripts and data (mainly input files needed for the scripts to 
 ## PLOTTING folder
 
 contains all the scripts needed to create the different plots of the paper
+
+## SUPP_TABLES folder
+
+contains all the supplementary tables
