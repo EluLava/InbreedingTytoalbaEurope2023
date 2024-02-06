@@ -1,6 +1,6 @@
-# Inbreeding characterization and variants distribution in the European barn owl GITHUB
+# Too big to purge: no evidence of purging in the islands of the European barn owl ($Tyto$ $alba$)
 
-Repository for code for this paper: Inbreeding characterization and variants distribution in the European barn owl ($Tyto$ $alba$) (DOI: XXXXXXXX)
+Repository for code for this paper: Too big to purge: no evidence of purging in the islands of the European barn owl ($Tyto$ $alba$) (DOI: XXXXXXXX)
 
 ## ANALYSES folder
 
