@@ -1,5 +1,7 @@
 #! /bin/bash
 
+# THIS SCRIPT WAS WRITTEN by TRISTAN CUMER (second co-author on the paper)xY
+
 cd ../data/3_SNP_EFF
 mkdir -p SNPeff_Output/
 

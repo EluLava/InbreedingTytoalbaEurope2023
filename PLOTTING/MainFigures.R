@@ -6,68 +6,64 @@ library(vioplot)
 ########################################## FIGURE 1 ##########################################
 ##############################################################################################
 
-
 #### PLOT FIG S1 MAP ####
 
-library(mapdata)
-library(rnaturalearth)
-library(rnaturalearthdata)
-library(rnaturalearthhires)
-library(sf)
-library(ggplot2)
-library(ggmap)
-library(tmap)
+# THIS FIGURE WAS MADE BY ALEXANDROS TOPALOUDIS (third co-author on the paper)
+
+library(tidyverse)
+library(plotrix)
+library(car)
+library(grid)
+library(DescTools)
+library(recolorize)
 library(rworldxtra)
-library(sp)
-library(OpenStreetMap)
+library(tmap)
+library(sf)
 
-#############################
+metadata <- read.table('metadata_Bioproject_v4.tsv',h=T,sep='\t')
+islands <- c('AE','IO','CT','CY','CO','WC','EC','GB','IR')
+metadata$island <- ifelse(metadata$Population %in% islands, 1,0) # make island variable 
 
-#Read data
-metadata <- read.table('../metadata_with_lat_lon.tab',sep='\t',h=T)
-#rm USA and SG indvs
-metadata <- metadata[! metadata$Population %in% c('USA','SGP'),]
+popcol = c("#741558","#48989e") # modify colors
 
-colnames(metadata)[2] = "INDVs"
+metadata <- metadata[metadata$REF_Panel==1,]
+mainland <- which(metadata$island == 0)
+island <- which(metadata$island == 1)
+mainland.d <- cbind.data.frame(metadata$lon[mainland], metadata$lat[mainland])
+mainland.spdf <- SpatialPointsDataFrame(mainland.d, metadata[mainland,c(2,4,6,7,8,12,13,14,15)])
+mainlandsf <- st_as_sf(mainland.spdf, crs = st_crs(3035) )
+island.d <- cbind.data.frame(metadata$lon[island], metadata$lat[island])
+island.spdf <- SpatialPointsDataFrame(island.d, metadata[island,c(2,4,6,7,8,12,13,14,15)])
+islandsf <- st_as_sf(island.spdf, crs = st_crs(3035) )
 
-#merge with cont vs pop info
-metadata = merge(metadata, dtaF[,c(1,16)], by = "INDVs")
+data(countriesHigh)
+world <- countriesHigh %>%  st_as_sf
+world<- st_transform(world, crs = st_crs(3035))
 
-xy <- cbind.data.frame(metadata$lon, metadata$lat)
-spdf <- SpatialPointsDataFrame(xy, metadata[,c(2,4,6,7,8,12,13,14,15)])
-sf <- st_as_sf(spdf,'+proj=moll' )
+europe_bbox <- st_bbox(c(xmin = -20, xmax = 40, ymax =60, ymin = 25), crs = st_crs(4326))
+europe_bbox = st_bbox(
+  st_transform(
+    st_as_sfc(europe_bbox), 
+    3035
+  )
+)
+tmap_style('white')
+europe_map_cropped <- world %>%  st_as_sf %>%  sf::st_crop(europe_bbox)
+t <- tm_shape(europe_map_cropped)  + 
+  tm_polygons() + 
+  tm_graticules() + 
+  tm_layout(title = "",
+            frame=F,
+            earth.boundary.lwd=1)+ 
+  tm_shape(mainlandsf)  + 
+  tm_dots(col=popcol[1],shape=20,size=1.5,alpha=1) + 
+  tm_shape(islandsf)  + 
+  tm_dots(col=popcol[2],shape=20,size=1.5,alpha=1)  
 
-#making map 
-data('countriesHigh')
-margin_box <- function(box, margin=0){
-  box[[1]] <- box[[1]] - margin
-  box[[2]] <- box[[2]] - margin
-  box[[3]] <- box[[3]] + margin
-  box[[4]] <- box[[4]] + margin
-  return(box) 
-}
+print(t)
 
-box <- st_bbox(sf)
-box2 <- margin_box(box, margin=4)
-
-meta <- metadata[! is.na(metadata$lat) & ! is.na(metadata$lon),]
-boxlc <- st_bbox(sf)
-box2lc <- margin_box(boxlc, margin=4)
-
-register_google(key='AIzaSyA0C1kC_AXDZsXTRvLQzim450yz4l8-994') # PUT KEY HERE 
-tmp <-  get_googlemap(center = c(6.591467,46.551096 ),zoom=9,maptype='satellite')
-ggmap(tmp)
-
-names(box2) <- c('left','bottom','right','top')
-tmp <-  get_map(box2,zoom=3,scale=4,maptype='satellite',source='google')
-pdf('./PLOTS/FIG1_SamplesMap.pdf',height=5,width=5)
-par(mar = c(0,0,0,0))
-ggmap(tmp) + scale_x_continuous(limits=box2[c('left','right')])+
-  scale_y_continuous(limits=box2[c('bottom','top')])+ 
-  geom_point(data=metadata, aes(lon,lat),
-             size=1.5, colour = c("white","black")[metadata$Continent], fill = c("#741558","#48989e")[metadata$Continent], shape = 21) + xlab('Longitude') + 
-  ylab('Latitude')
-
+pdf('Figure1.pdf',12,12)
+print(t)
 dev.off()
 
 ##############################################################################################
