@@ -2,7 +2,7 @@
 
 All the code is present in this folder:
 
-- 0_RP504_filtering.sh: contains the filtering steps of the Reference panels (removing weird individuals, MAC 3 and missingness 10\%). The initial VCF used in this script is obtained from this paper XXXXXXXX.
+- 0_RP504_filtering.sh: contains the filtering steps of the Reference panels (removing weird individuals, MAC 3 and missingness 10\%).
 
 - 1.1_CreatingRecMap_RZoofriendlyplus10.sh: creates text files with RzooRoH-friendly positions including the regional recombination rates !
 
