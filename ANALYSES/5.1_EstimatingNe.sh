@@ -203,7 +203,7 @@ R --vanilla << EOF
 	    piboot = sum(pipopboot[,'nbsnps'] * pipopboot[,'Pi'])/sum(pipopboot[,'nbsnps'])
 
 	    #get Ne
-	    Neest = piboot/mu
+	    Neest = piboot/(4*mu)
 
 	    #create output
 	    lineout = as.data.frame(cbind(boot, pop, Neest))
